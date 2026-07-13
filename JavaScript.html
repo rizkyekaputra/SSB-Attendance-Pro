@@ -1,0 +1,344 @@
+<script>
+
+/*=========================================================
+SSB Attendance Pro Enterprise
+JavaScript Framework v2.0.0
+=========================================================*/
+
+const APP = {
+
+currentPage:"dashboard",
+
+pages:[
+"dashboard",
+"license",
+"customer",
+"report",
+"setting"
+],
+
+/*=========================================================
+START
+=========================================================*/
+
+start(){
+
+console.log("SSB Attendance Pro Enterprise v2");
+
+this.showPage("dashboard");
+
+this.dashboard.load();
+
+},
+
+/*=========================================================
+SHOW PAGE
+=========================================================*/
+
+showPage(page){
+
+this.currentPage=page;
+
+this.pages.forEach(function(name){
+
+const el=document.getElementById(name+"Page");
+
+if(el){
+
+el.style.display=(name===page)
+?"block"
+:"none";
+
+}
+
+});
+
+document
+.querySelectorAll(".app-menu-item")
+.forEach(function(btn){
+
+btn.classList.remove("active");
+
+if(btn.dataset.page===page){
+
+btn.classList.add("active");
+
+}
+
+});
+
+},
+
+/*=========================================================
+DASHBOARD MODULE
+=========================================================*/
+
+dashboard:{
+
+load(){
+
+google.script.run
+.withSuccessHandler(APP.dashboard.render)
+.withFailureHandler(APP.error)
+.dashboardGetData();
+
+},
+
+render(data){
+
+// ===========================
+// Statistic
+// ===========================
+
+document.getElementById("dashTotalLicense").textContent=data.totalLicense;
+
+document.getElementById("dashTotalCustomer").textContent=data.totalCustomer;
+
+document.getElementById("dashTotalActive").textContent=data.totalActive;
+
+document.getElementById("dashTotalExpired").textContent=data.totalExpired;
+
+
+// ===========================
+// System
+// ===========================
+
+document.getElementById("dashVersion").textContent=data.version;
+
+document.getElementById("dashDatabase").textContent=data.database;
+
+document.getElementById("dashServer").textContent=data.server;
+
+
+// ===========================
+// Today
+// ===========================
+
+const today=new Date();
+
+document.getElementById("dashToday").textContent=
+
+today.toLocaleDateString("id-ID",{
+
+weekday:"long",
+
+day:"numeric",
+
+month:"long",
+
+year:"numeric"
+
+});
+
+// ===========================
+// Greeting
+// ===========================
+
+const hour = new Date().getHours();
+
+let greeting = "Selamat Malam 🌙";
+
+if(hour >= 5 && hour < 10){
+
+    greeting = "Selamat Pagi 🌅";
+
+}else if(hour >= 10 && hour < 15){
+
+    greeting = "Selamat Siang ☀";
+
+}else if(hour >= 15 && hour < 18){
+
+    greeting = "Selamat Sore 🌤";
+
+}
+
+document.getElementById("dashGreeting").textContent = greeting;
+
+
+// ===========================
+// Activity
+// ===========================
+
+let html="";
+
+if(data.recentActivity.length==0){
+
+html=`
+
+<div class="app-empty">
+
+Belum ada aktivitas.
+
+</div>
+
+`;
+
+}else{
+
+data.recentActivity.forEach(function(item){
+
+html+=`
+
+<div class="app-activity-item">
+
+<div class="app-activity-icon">
+
+<i class="bi bi-clock-history"></i>
+
+</div>
+
+<div>
+
+<strong>${item.action}</strong>
+
+<br>
+
+<small>${item.detail}</small>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("dashActivity").innerHTML=html;
+
+}
+
+},
+
+error(err){
+
+console.error(err);
+
+alert(err.message);
+
+},
+
+/*=========================================================
+LICENSE
+=========================================================*/
+
+license:{
+
+load(){
+
+console.log("License Module");
+
+}
+
+},
+
+/*=========================================================
+CUSTOMER
+=========================================================*/
+
+customer:{
+
+load(){
+
+console.log("Customer Module");
+
+}
+
+},
+
+/*=========================================================
+REPORT
+=========================================================*/
+
+report:{
+
+load(){
+
+console.log("Report Module");
+
+}
+
+},
+
+/*=========================================================
+SETTING
+=========================================================*/
+
+setting:{
+
+load(){
+
+console.log("Setting Module");
+
+}
+
+}
+
+};
+
+
+/*=========================================================
+EVENT
+=========================================================*/
+
+document.addEventListener("DOMContentLoaded",function(){
+
+APP.start();
+
+});
+
+
+/*=========================================================
+MENU CLICK
+=========================================================*/
+
+document.querySelectorAll(".app-menu-item")
+
+.forEach(function(btn){
+
+btn.addEventListener("click",function(){
+
+const page=this.dataset.page;
+
+APP.showPage(page);
+
+switch(page){
+
+case"dashboard":
+
+APP.dashboard.load();
+
+break;
+
+case"license":
+
+APP.license.load();
+
+break;
+
+case"customer":
+
+APP.customer.load();
+
+break;
+
+case"report":
+
+APP.report.load();
+
+break;
+
+case"setting":
+
+APP.setting.load();
+
+break;
+
+}
+
+});
+
+});
+
+</script>

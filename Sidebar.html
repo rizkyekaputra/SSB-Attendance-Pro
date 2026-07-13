@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>SSB Attendance Pro Enterprise</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <?!= include("CSS"); ?>
+
+</head>
+
+<body>
+
+<div class="app-wrapper">
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <header class="app-header">
+
+        <div class="app-header-left">
+
+            <div class="app-logo">
+
+                <i class="bi bi-dribbble"></i>
+
+            </div>
+
+            <div>
+
+                <h4>SSB Attendance Pro</h4>
+
+                <small>Enterprise Edition v2.0</small>
+
+            </div>
+
+        </div>
+
+        <div class="app-header-right">
+
+            <div class="app-user">
+
+                <i class="bi bi-person-circle"></i>
+
+                <div>
+
+                    <strong>Administrator</strong>
+
+                    <small>Online</small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- LAYOUT -->
+    <!-- ===================================================== -->
+
+    <div class="app-layout">
+
+        <!-- ================================================= -->
+        <!-- SIDEBAR -->
+        <!-- ================================================= -->
+
+        <aside class="app-sidebar">
+
+            <nav class="app-menu">
+
+                <button
+                    class="app-menu-item active"
+                    data-page="dashboard">
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    <span>Dashboard</span>
+
+                </button>
+
+                <button
+                    class="app-menu-item"
+                    data-page="license">
+
+                    <i class="bi bi-key-fill"></i>
+
+                    <span>License</span>
+
+                </button>
+
+                <button
+                    class="app-menu-item"
+                    data-page="customer">
+
+                    <i class="bi bi-people-fill"></i>
+
+                    <span>Customer</span>
+
+                </button>
+
+                <button
+                    class="app-menu-item"
+                    data-page="report">
+
+                    <i class="bi bi-bar-chart-fill"></i>
+
+                    <span>Report</span>
+
+                </button>
+
+                <button
+                    class="app-menu-item"
+                    data-page="setting">
+
+                    <i class="bi bi-gear-fill"></i>
+
+                    <span>Setting</span>
+
+                </button>
+
+            </nav>
+
+            <div class="app-sidebar-footer">
+
+                <small>Version 2.0</small>
+
+            </div>
+
+        </aside>
+
+        <!-- ================================================= -->
+        <!-- MAIN -->
+        <!-- ================================================= -->
+
+        <main class="app-main">
+
+            <!-- Dashboard -->
+
+            <section id="dashPage">
+
+    <!-- Welcome -->
+
+    <div class="app-card app-welcome">
+
+    <div class="app-welcome-left">
+
+        <h1 id="dashGreeting">
+            Selamat Pagi 👋
+        </h1>
+
+        <h5>
+            Administrator
+        </h5>
+
+        <p id="dashToday">
+
+            Sabtu, 11 Juli 2026
+
+        </p>
+
+        <small>
+
+            Selamat bekerja.
+            Hari ini sistem siap digunakan.
+
+        </small>
+
+    </div>
+
+    <div class="app-welcome-right">
+
+        <button
+        class="app-btn app-btn-light"
+        id="btnGenerateLicense">
+
+            <i class="bi bi-plus-circle"></i>
+
+            Generate License
+
+        </button>
+
+    </div>
+
+</div>
+
+
+    <!-- Statistic -->
+
+    <div class="app-dashboard-grid">
+
+        <div class="app-card">
+
+            <i class="bi bi-key-fill app-stat-icon"></i>
+
+            <h2 id="dashTotalLicense">0</h2>
+
+            <p>Total License</p>
+
+        </div>
+
+        <div class="app-card">
+
+            <i class="bi bi-people-fill app-stat-icon"></i>
+
+            <h2 id="dashTotalCustomer">0</h2>
+
+            <p>Total Customer</p>
+
+        </div>
+
+        <div class="app-card">
+
+            <i class="bi bi-check-circle-fill app-stat-icon"></i>
+
+            <h2 id="dashTotalActive">0</h2>
+
+            <p>Active License</p>
+
+        </div>
+
+        <div class="app-card">
+
+            <i class="bi bi-x-circle-fill app-stat-icon"></i>
+
+            <h2 id="dashTotalExpired">0</h2>
+
+            <p>Expired License</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Quick Action -->
+
+    <div class="app-card">
+
+        <h4>Quick Action</h4>
+
+        <br>
+
+        <button class="app-btn app-btn-primary">
+
+            <i class="bi bi-plus-circle"></i>
+
+            Generate License
+
+        </button>
+
+        <button class="app-btn">
+
+            <i class="bi bi-person-plus"></i>
+
+            Add Customer
+
+        </button>
+
+    </div>
+
+
+    <!-- Recent Activity -->
+
+    <div class="app-card">
+
+        <h4>
+
+            <i class="bi bi-clock-history"></i>
+
+            Recent Activity
+
+        </h4>
+
+        <div id="dashActivity">
+
+            Belum ada aktivitas.
+
+        </div>
+
+    </div>
+
+
+    <!-- System Information -->
+
+    <div class="app-card">
+
+        <h4>
+
+            <i class="bi bi-cpu"></i>
+
+            System Information
+
+        </h4>
+
+        <br>
+
+        <table class="table">
+
+            <tr>
+
+                <td>Version</td>
+
+                <td id="dashVersion">-</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Database</td>
+
+                <td id="dashDatabase">-</td>
+
+            </tr>
+
+            <tr>
+
+                <td>License Server</td>
+
+                <td id="dashServer">-</td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+</section>
+
+            <!-- License -->
+
+            <section id="licensePage" style="display:none;">
+
+            </section>
+
+            <!-- Customer -->
+
+            <section id="customerPage" style="display:none;">
+
+            </section>
+
+            <!-- Report -->
+
+            <section id="reportPage" style="display:none;">
+
+            </section>
+
+            <!-- Setting -->
+
+            <section id="settingPage" style="display:none;">
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+<?!= include("JavaScript"); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
