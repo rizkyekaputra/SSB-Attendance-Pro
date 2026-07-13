@@ -75,6 +75,10 @@ DASHBOARD MODULE
 
 dashboard:{
 
+charts:{},
+
+analyticsRendered:false,
+
 load(){
 
 google.script.run
@@ -206,6 +210,140 @@ html+=`
 }
 
 document.getElementById("dashActivity").innerHTML=html;
+
+APP.dashboard.renderAnalytics();
+
+},
+
+renderAnalytics(){
+
+const animation=!this.analyticsRendered;
+
+Object.values(this.charts).forEach(function(chart){
+
+if(chart){
+
+chart.destroy();
+
+}
+
+});
+
+const common={
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+animation:animation,
+
+plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}}}
+
+};
+
+const licenseGrowthCanvas=document.getElementById("licenseGrowthChart");
+
+if(licenseGrowthCanvas){
+
+this.charts.licenseGrowth=new Chart(licenseGrowthCanvas,{
+
+type:"line",
+
+data:{
+
+labels:["Jan","Feb","Mar","Apr","May","Jun"],
+
+datasets:[{
+
+label:"Licenses",
+
+data:[18,26,34,43,57,68],
+
+borderColor:"#2563EB",
+
+backgroundColor:"rgba(37,99,235,.12)",
+
+fill:true,
+
+tension:.4,
+
+pointRadius:3
+
+}]
+
+},
+
+options:common
+
+});
+
+}
+
+const licenseStatusCanvas=document.getElementById("licenseStatusChart");
+
+if(licenseStatusCanvas){
+
+this.charts.licenseStatus=new Chart(licenseStatusCanvas,{
+
+type:"doughnut",
+
+data:{
+
+labels:["Active","Expired"],
+
+datasets:[{
+
+data:[68,12],
+
+backgroundColor:["#10B981","#EF4444"],
+
+borderWidth:0
+
+}]
+
+},
+
+options:common
+
+});
+
+}
+
+const customerGrowthCanvas=document.getElementById("customerGrowthChart");
+
+if(customerGrowthCanvas){
+
+this.charts.customerGrowth=new Chart(customerGrowthCanvas,{
+
+type:"bar",
+
+data:{
+
+labels:["Jan","Feb","Mar","Apr","May","Jun"],
+
+datasets:[{
+
+label:"Customers",
+
+data:[8,12,16,19,25,31],
+
+backgroundColor:"#7C3AED",
+
+borderRadius:7,
+
+borderSkipped:false
+
+}]
+
+},
+
+options:common
+
+});
+
+}
+
+this.analyticsRendered=true;
 
 }
 
