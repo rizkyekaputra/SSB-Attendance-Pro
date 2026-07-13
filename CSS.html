@@ -1,6 +1,6 @@
 /*=========================================================
   SSB Attendance Pro Enterprise
-  CSS Framework v2.0.0
+  CSS Framework v18.0.0
 =========================================================*/
 
 
@@ -460,6 +460,691 @@ height:220px;
 background:rgba(255,255,255,.08);
 
 border-radius:50%;
+
+}
+
+/*=========================================================
+ENTERPRISE FRAMEWORK EXTENSIONS
+Enterprise Edition v2.1.0
+=========================================================*/
+
+/*=========================================================
+ENTERPRISE VARIABLES
+=========================================================*/
+
+:root{
+
+--transition:.25s ease;
+--warning-light:#FEF3C7;
+
+--z-sidebar:100;
+--z-header:200;
+--z-modal:1050;
+--z-toast:1100;
+
+--text-muted:#6B7280;
+--border-warning:#F59E0B;
+
+}
+
+/*=========================================================
+LAYOUT ENHANCEMENTS
+=========================================================*/
+
+.app-header{
+
+position:relative;
+z-index:var(--z-header);
+border-bottom:1px solid var(--border);
+
+}
+
+.app-sidebar{
+
+position:relative;
+z-index:var(--z-sidebar);
+background:linear-gradient(180deg,#111827 0%,var(--sidebar) 100%);
+
+}
+
+.app-menu-item{
+
+width:100%;
+font-family:inherit;
+font-weight:500;
+text-align:left;
+transition:background var(--transition),color var(--transition),transform var(--transition);
+
+}
+
+.app-menu-item i{
+
+width:20px;
+font-size:18px;
+text-align:center;
+
+}
+
+.app-menu-item:hover{
+
+transform:translateX(2px);
+
+}
+
+.app-main{
+
+min-width:0;
+
+}
+
+/*=========================================================
+DASHBOARD AND CARDS
+=========================================================*/
+
+.app-dashboard-grid{
+
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:20px;
+margin-bottom:24px;
+
+}
+
+.app-dashboard-grid .app-card{
+
+position:relative;
+min-height:154px;
+overflow:hidden;
+transition:transform var(--transition),box-shadow var(--transition);
+
+}
+
+.app-dashboard-grid .app-card:hover{
+
+transform:translateY(-4px);
+box-shadow:0 16px 32px rgba(15,23,42,.12);
+
+}
+
+.app-stat-icon{
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+width:44px;
+height:44px;
+margin-bottom:17px;
+border-radius:13px;
+background:#EFF6FF;
+color:var(--primary);
+font-size:20px;
+
+}
+
+.app-activity-item{
+
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px 0;
+border-bottom:1px solid var(--border);
+
+}
+
+.app-activity-item:last-child{
+
+border-bottom:none;
+
+}
+
+.app-activity-icon{
+
+display:flex;
+align-items:center;
+justify-content:center;
+width:38px;
+height:38px;
+flex:0 0 38px;
+border-radius:12px;
+background:#EFF6FF;
+color:var(--primary);
+
+}
+
+/*=========================================================
+TABLES
+=========================================================*/
+
+.app-table{
+
+width:100%;
+border:1px solid var(--border);
+border-spacing:0;
+border-radius:12px;
+border-collapse:separate;
+overflow:hidden;
+
+}
+
+.app-table th{
+
+padding:13px 16px;
+border-bottom:1px solid var(--border);
+background:#F8FAFC;
+color:#475569;
+font-size:13px;
+font-weight:600;
+text-align:left;
+
+}
+
+.app-table td{
+
+padding:13px 16px;
+border-bottom:1px solid var(--border);
+font-size:13px;
+text-align:left;
+
+}
+
+.app-table tr:last-child td{
+
+border-bottom:none;
+
+}
+
+/*=========================================================
+FORMS
+=========================================================*/
+
+.app-form-group{
+
+margin-bottom:18px;
+
+}
+
+.app-form-label{
+
+display:block;
+margin-bottom:7px;
+font-size:13px;
+font-weight:600;
+
+}
+
+.app-form-control{
+
+display:block;
+width:100%;
+padding:11px 13px;
+border:1px solid var(--border);
+border-radius:10px;
+background:#FFFFFF;
+color:var(--text);
+font:400 14px inherit;
+transition:border-color var(--transition),box-shadow var(--transition);
+
+}
+
+.app-form-select{
+
+display:block;
+width:100%;
+padding:11px 13px;
+border:1px solid var(--border);
+border-radius:10px;
+background:#FFFFFF;
+color:var(--text);
+font:400 14px inherit;
+transition:border-color var(--transition),box-shadow var(--transition);
+
+}
+
+.app-form-control:focus{
+
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(37,99,235,.14);
+outline:none;
+
+}
+
+.app-form-select:focus{
+
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(37,99,235,.14);
+outline:none;
+
+}
+
+/*=========================================================
+BUTTONS AND BADGES
+=========================================================*/
+
+.app-btn{
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:7px;
+transition:transform var(--transition),background var(--transition),box-shadow var(--transition);
+
+}
+
+.app-btn:hover{
+
+transform:translateY(-2px);
+
+}
+
+.app-btn:disabled{
+
+cursor:not-allowed;
+opacity:.65;
+pointer-events:none;
+transform:none;
+box-shadow:none;
+
+}
+
+.app-badge{
+
+display:inline-flex;
+align-items:center;
+padding:4px 9px;
+border-radius:999px;
+font-size:11px;
+font-weight:600;
+
+}
+
+.app-badge-primary{
+
+background:#DBEAFE;
+color:#1D4ED8;
+
+}
+
+.app-badge-success{
+
+background:#D1FAE5;
+color:#047857;
+
+}
+
+.app-badge-danger{
+
+background:#FEE2E2;
+color:#B91C1C;
+
+}
+
+.app-badge-warning{
+
+background:var(--warning-light);
+color:#B45309;
+
+}
+
+/*=========================================================
+TOAST, MODAL, LOADING, EMPTY STATE
+=========================================================*/
+
+.app-toast-container{
+
+position:fixed;
+right:20px;
+bottom:20px;
+z-index:var(--z-toast);
+display:grid;
+gap:10px;
+
+}
+
+.app-toast{
+
+display:flex;
+min-width:280px;
+max-width:380px;
+align-items:flex-start;
+gap:10px;
+padding:14px;
+border:1px solid var(--border);
+border-radius:13px;
+background:#FFFFFF;
+box-shadow:var(--shadow);
+font-size:13px;
+
+}
+
+.app-modal-backdrop{
+
+position:fixed;
+z-index:var(--z-modal);
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:rgba(15,23,42,.55);
+
+}
+
+.app-modal{
+
+width:min(100%,560px);
+border-radius:var(--radius);
+background:#FFFFFF;
+box-shadow:0 24px 60px rgba(15,23,42,.25);
+
+}
+
+.app-loading{
+
+display:inline-flex;
+align-items:center;
+gap:9px;
+color:var(--text-muted);
+font-size:13px;
+
+}
+
+.app-spinner{
+
+width:18px;
+height:18px;
+border:2px solid #DBEAFE;
+border-top-color:var(--primary);
+border-radius:50%;
+animation:app-spin .7s linear infinite;
+
+}
+
+@keyframes app-spin{
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+.app-empty{
+
+padding:32px 16px;
+color:var(--text-muted);
+font-size:13px;
+text-align:center;
+
+}
+
+/*=========================================================
+UTILITY CLASSES
+=========================================================*/
+
+.app-text-primary{
+
+color:var(--primary) !important;
+
+}
+
+.app-text-success{
+
+color:var(--success) !important;
+
+}
+
+.app-text-danger{
+
+color:var(--danger) !important;
+
+}
+
+.app-text-warning{
+
+color:var(--warning) !important;
+
+}
+
+.app-text-muted{
+
+color:var(--text-muted) !important;
+
+}
+
+.app-bg-soft{
+
+background:#F8FAFC !important;
+
+}
+
+.app-bg-warning{
+
+background:var(--warning-light) !important;
+
+}
+
+.app-border{
+
+border:1px solid var(--border) !important;
+
+}
+
+.app-border-warning{
+
+border:1px solid var(--border-warning) !important;
+
+}
+
+.app-rounded{
+
+border-radius:var(--radius) !important;
+
+}
+
+.app-shadow{
+
+box-shadow:var(--shadow) !important;
+
+}
+
+.app-hidden{
+
+display:none !important;
+
+}
+
+.app-flex{
+
+display:flex !important;
+
+}
+
+.app-flex-center{
+
+display:flex !important;
+align-items:center !important;
+justify-content:center !important;
+
+}
+
+.app-flex-between{
+
+display:flex !important;
+align-items:center !important;
+justify-content:space-between !important;
+
+}
+
+.app-gap-1{
+
+gap:4px !important;
+
+}
+
+.app-gap-2{
+
+gap:8px !important;
+
+}
+
+.app-gap-3{
+
+gap:16px !important;
+
+}
+
+.app-p-1{
+
+padding:4px !important;
+
+}
+
+.app-p-2{
+
+padding:8px !important;
+
+}
+
+.app-p-3{
+
+padding:16px !important;
+
+}
+
+.app-m-1{
+
+margin:4px !important;
+
+}
+
+.app-m-2{
+
+margin:8px !important;
+
+}
+
+.app-m-3{
+
+margin:16px !important;
+
+}
+
+/*=========================================================
+RESPONSIVE
+=========================================================*/
+
+@media(max-width:992px){
+
+.app-sidebar{
+
+width:80px;
+padding:18px 10px;
+
+}
+
+.app-menu-item{
+
+justify-content:center;
+padding:14px 8px;
+
+}
+
+.app-menu-item span{
+
+display:none;
+
+}
+
+.app-sidebar-footer{
+
+display:none;
+
+}
+
+.app-dashboard-grid{
+
+grid-template-columns:repeat(2,minmax(0,1fr));
+
+}
+
+}
+
+@media(max-width:768px){
+
+.app-header{
+
+padding:0 18px;
+
+}
+
+.app-main{
+
+padding:18px;
+
+}
+
+.app-welcome{
+
+align-items:flex-start;
+flex-direction:column;
+padding:26px;
+
+}
+
+.app-welcome-right{
+
+width:100%;
+
+}
+
+.app-welcome-right .app-btn{
+
+width:100%;
+
+}
+
+}
+
+@media(max-width:480px){
+
+.app-sidebar{
+
+width:64px;
+padding:14px 8px;
+
+}
+
+.app-main{
+
+padding:13px;
+
+}
+
+.app-dashboard-grid{
+
+gap:12px;
+
+}
+
+.app-dashboard-grid .app-card{
+
+min-height:138px;
+
+}
+
+.app-dashboard-grid h2{
+
+font-size:24px;
+
+}
+
+.app-toast{
+
+min-width:0;
+max-width:calc(100vw - 40px);
+
+}
 
 }
 
