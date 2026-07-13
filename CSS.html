@@ -463,6 +463,187 @@ border-radius:50%;
 
 }
 
+
+/*=========================================================
+DAY 2 - DASHBOARD PREMIUM UI POLISH
+=========================================================*/
+
+:root{
+
+--dashboard-space:28px;
+--dashboard-shadow:0 14px 35px rgba(15,23,42,.08);
+
+}
+
+.app-main{
+
+padding:34px;
+
+}
+
+#dashboardPage{
+
+max-width:1440px;
+margin:0 auto;
+
+}
+
+.app-header{
+
+box-shadow:0 4px 18px rgba(15,23,42,.06);
+
+}
+
+.app-sidebar{
+
+box-shadow:10px 0 30px rgba(15,23,42,.05);
+
+}
+
+.app-card{
+
+border:1px solid rgba(229,231,235,.9);
+box-shadow:var(--dashboard-shadow);
+
+}
+
+.app-welcome{
+
+min-height:210px;
+padding:38px 40px;
+box-shadow:0 18px 38px rgba(29,78,216,.22);
+
+}
+
+.app-dashboard-grid{
+
+gap:22px;
+margin-bottom:var(--dashboard-space);
+
+}
+
+.app-dashboard-grid .app-card{
+
+cursor:pointer;
+transition:transform .25s ease,box-shadow .25s ease;
+
+}
+
+.app-dashboard-grid .app-card:hover{
+
+transform:translateY(-5px);
+box-shadow:0 18px 36px rgba(15,23,42,.13);
+
+}
+
+.app-dashboard-grid .app-card:hover .app-stat-icon{
+
+transform:scale(1.08);
+transition:.3s ease;
+
+}
+
+.app-stat-icon{
+
+box-shadow:inset 0 0 0 1px rgba(37,99,235,.08);
+
+}
+
+.app-dashboard-grid h2{
+
+font-variant-numeric:tabular-nums;
+
+}
+
+.app-quick-action-card,
+.app-recent-activity-card,
+.app-version-card{
+
+margin-top:var(--dashboard-space);
+
+}
+
+.app-recent-activity-card #dashActivity{
+
+margin-top:4px;
+
+}
+
+.app-version-card .table{
+
+margin-bottom:0;
+
+}
+
+.app-version-card .table td{
+
+vertical-align:middle;
+
+}
+
+@media(max-width:992px){
+
+.app-main{
+
+padding:26px;
+
+}
+
+.app-dashboard-grid{
+
+gap:18px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.app-main{
+
+padding:20px;
+
+}
+
+.app-welcome{
+
+min-height:auto;
+padding:28px;
+
+}
+
+.app-quick-action-card,
+.app-recent-activity-card,
+.app-version-card{
+
+margin-top:20px;
+
+}
+
+}
+
+@media(max-width:480px){
+
+.app-main{
+
+padding:14px;
+
+}
+
+.app-welcome{
+
+padding:22px;
+
+}
+
+.app-dashboard-grid{
+
+gap:14px;
+
+}
+
+}
+
 /*=========================================================
 ENTERPRISE FRAMEWORK EXTENSIONS
 Enterprise Edition v2.1.0
