@@ -111,6 +111,22 @@ function dashboardGetData(){
 
   }
 
+  const chart={
+
+    license:dashboardBuildMonthlySeries_(shLicense,totalLicense),
+
+    customer:dashboardBuildMonthlySeries_(shCustomer,totalCustomer),
+
+    status:{
+
+      active:totalActive,
+
+      expired:totalExpired
+
+    }
+
+  };
+
   // =========================
   // RETURN
   // =========================
@@ -131,7 +147,103 @@ function dashboardGetData(){
 
     server:"Offline",
 
-    recentActivity:recentActivity
+    recentActivity:recentActivity,
+
+    chart:chart
+
+  };
+
+}
+
+/*======================================================
+  DASHBOARD DATA
+======================================================*/
+
+function dashboardBuildMonthlySeries_(sheet,currentTotal){
+
+  const timeZone=Session.getScriptTimeZone();
+
+  const currentMonth=Utilities.formatDate(
+
+    new Date(),
+
+    timeZone,
+
+    "MMM yyyy"
+
+  );
+
+  const fallback={
+
+    labels:[currentMonth],
+
+    values:[currentTotal]
+
+  };
+
+  if(sheet.getLastRow()<2) return fallback;
+
+  const rows=sheet.getDataRange().getValues();
+
+  const headers=rows[0].map(function(value){
+
+    return String(value).trim().toLowerCase();
+
+  });
+
+  const dateIndex=headers.findIndex(function(header){
+
+    return /date|tanggal|created|registered|issued/.test(header);
+
+  });
+
+  if(dateIndex===-1) return fallback;
+
+  const months={};
+
+  rows.slice(1).forEach(function(row){
+
+    const value=row[dateIndex];
+
+    const date=value instanceof Date?value:new Date(value);
+
+    if(isNaN(date.getTime())) return;
+
+    const key=Utilities.formatDate(date,timeZone,"yyyy-MM");
+
+    if(!months[key]){
+
+      months[key]={
+
+        label:Utilities.formatDate(date,timeZone,"MMM yyyy"),
+
+        value:0
+
+      };
+
+    }
+
+    months[key].value++;
+
+  });
+
+  const keys=Object.keys(months).sort().slice(-12);
+
+  if(keys.length===0) return fallback;
+
+  return{
+
+    labels:keys.map(function(key){
+
+      return months[key].label;
+
+    }),
+
+    values:keys.map(function(key){
+
+      return months[key].value;
+
+    })
 
   };
 

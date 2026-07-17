@@ -211,11 +211,11 @@ html+=`
 
 document.getElementById("dashActivity").innerHTML=html;
 
-APP.dashboard.renderAnalytics();
+APP.dashboard.renderAnalytics(data);
 
 },
 
-renderAnalytics(){
+renderAnalytics(data){
 
 const animation=!this.analyticsRendered;
 
@@ -251,13 +251,13 @@ type:"line",
 
 data:{
 
-labels:["Jan","Feb","Mar","Apr","May","Jun"],
+labels:data.chart.license.labels,
 
 datasets:[{
 
 label:"Licenses",
 
-data:[18,26,34,43,57,68],
+data:data.chart.license.values,
 
 borderColor:"#2563EB",
 
@@ -293,7 +293,13 @@ labels:["Active","Expired"],
 
 datasets:[{
 
-data:[68,12],
+data:[
+
+data.chart.status.active,
+
+data.chart.status.expired
+
+],
 
 backgroundColor:["#10B981","#EF4444"],
 
@@ -319,13 +325,13 @@ type:"bar",
 
 data:{
 
-labels:["Jan","Feb","Mar","Apr","May","Jun"],
+labels:data.chart.customer.labels,
 
 datasets:[{
 
 label:"Customers",
 
-data:[8,12,16,19,25,31],
+data:data.chart.customer.values,
 
 backgroundColor:"#7C3AED",
 
@@ -366,6 +372,90 @@ license:{
 load(){
 
 console.log("License Module");
+
+},
+
+openGenerator(){
+
+const trigger=document.getElementById("btnGenerateLicense");
+
+if(trigger){trigger.disabled=false;trigger.removeAttribute("aria-disabled");}
+
+let modal=document.getElementById("licenseGeneratorModal");
+
+if(!modal){
+
+modal=document.createElement("div");
+
+modal.className="modal fade";
+
+modal.id="licenseGeneratorModal";
+
+modal.tabIndex=-1;
+
+modal.innerHTML=['<div class="modal-dialog modal-lg"><form class="modal-content" id="licenseGeneratorForm">','<div class="modal-header"><h5 class="modal-title">Generate License</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>','<div class="modal-body"><div class="row g-3">','<div class="col-md-6"><label class="form-label">Nama SSB</label><input class="form-control" name="ssbName" required></div>','<div class="col-md-6"><label class="form-label">Nama Pembeli</label><input class="form-control" name="customerName" required></div>','<div class="col-md-6"><label class="form-label">WhatsApp</label><input class="form-control" name="whatsapp" required></div>','<div class="col-md-6"><label class="form-label">Email</label><input class="form-control" name="email" type="email" required></div>','<div class="col-md-6"><label class="form-label">Kota</label><input class="form-control" name="city" required></div>','<div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version" value="Enterprise" required></div>','<div class="col-md-3"><label class="form-label">Expired Duration</label><input class="form-control" name="duration" type="number" min="1" value="12" required></div>','</div></div><div class="modal-footer"><button class="btn btn-primary" id="licenseGeneratorSubmit">Generate License</button></div></form></div>'].join("");
+
+document.body.appendChild(modal);
+
+modal.querySelector("form").addEventListener("submit",function(event){event.preventDefault();APP.license.submitGenerator();});
+
+}
+
+this.modal=bootstrap.Modal.getOrCreateInstance(modal);
+
+this.modal.show();
+
+},
+
+submitGenerator(){
+
+const form=document.getElementById("licenseGeneratorForm");
+
+if(!form.checkValidity()){form.reportValidity();return;}
+
+const payload=Object.fromEntries(new FormData(form).entries());
+
+payload.duration=Number(payload.duration);
+
+this.setLoading(true);
+
+google.script.run.withSuccessHandler(function(result){
+
+APP.license.setLoading(false);
+APP.license.modal.hide();
+APP.license.resetGenerator();
+APP.license.showSuccess(result);
+APP.dashboard.load();
+
+}).withFailureHandler(function(error){
+
+APP.license.setLoading(false);
+alert(error.message||error);
+
+}).licenseGenerate(payload);
+
+},
+
+showSuccess(result){
+
+const alert=document.createElement("div");
+alert.className="alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3";
+alert.innerHTML=['<strong>License generated.</strong> ',result.licenseKey,'<button type="button" class="btn-close" data-bs-dismiss="alert"></button>'].join("");
+document.body.appendChild(alert);
+
+},
+
+setLoading(isLoading){
+
+const submit=document.getElementById("licenseGeneratorSubmit");
+if(submit){submit.disabled=isLoading;submit.textContent=isLoading?"Generating...":"Generate License";}
+
+},
+
+resetGenerator(){
+
+const form=document.getElementById("licenseGeneratorForm");
+if(form) form.reset();
 
 }
 
