@@ -1070,6 +1070,74 @@ transform:translateY(0);
 
 }
 
+.activation-gate-shell{
+
+position:relative;
+overflow:hidden;
+
+}
+
+.activation-gate-shell::before{
+
+content:"";
+position:absolute;
+inset:auto -80px -80px auto;
+width:260px;
+height:260px;
+background:rgba(255,255,255,.16);
+border-radius:50%;
+filter:blur(40px);
+pointer-events:none;
+
+}
+
+.activation-gate-card{
+
+animation:fadeInUp .45s ease;
+transition:transform .2s ease, box-shadow .2s ease;
+
+}
+
+.activation-gate-card:hover{
+
+transform:translateY(-2px);
+box-shadow:0 24px 48px rgba(15,23,42,.16)!important;
+
+}
+
+.activation-gate-btn{
+
+transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+
+}
+
+.activation-gate-btn:hover{
+
+transform:translateY(-1px);
+box-shadow:0 14px 34px rgba(37,99,235,.28);
+
+}
+
+.activation-status-badge,
+.activation-status-card,
+.activation-info-card{
+
+transition:all .2s ease;
+
+}
+
+.activation-input-wrap .bi-key-fill{
+
+z-index:2;
+
+}
+
+.activation-input-wrap .form-control{
+
+padding-left:48px;
+
+}
+
 .app-empty{
 
 padding:32px 16px;

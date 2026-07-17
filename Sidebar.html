@@ -26,9 +26,9 @@
 
 <body>
 
-<div id="activationGate" class="min-vh-100 d-flex align-items-center justify-content-center p-3" style="display:flex;background:linear-gradient(135deg,#2563EB 0%,#4F46E5 100%);">
+<div id="activationGate" class="min-vh-100 d-flex align-items-center justify-content-center p-3 activation-gate-shell" style="display:flex;background:linear-gradient(135deg,#2563EB 0%,#4F46E5 100%);">
 
-    <div class="card border-0 shadow-lg w-100" style="max-width:1120px;border-radius:28px;animation:fadeInUp 0.45s ease;overflow:hidden;">
+    <div class="card border-0 shadow-lg w-100 activation-gate-card" style="max-width:1120px;border-radius:28px;animation:fadeInUp 0.45s ease;overflow:hidden;position:relative;">
 
         <div class="card-body p-4 p-lg-5">
 
@@ -36,21 +36,19 @@
 
                 <div class="col-lg-7">
 
-                    <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="mb-4">
 
-                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:52px;height:52px;background:linear-gradient(135deg,#2563EB,#4F46E5);color:#fff;">
+                        <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill border border-primary-subtle mb-3" style="background:rgba(37,99,235,.08);">
 
-                            <i class="bi bi-shield-lock-fill fs-4"></i>
+                            <i class="bi bi-stars text-primary"></i>
 
-                        </div>
-
-                        <div>
-
-                            <h1 class="mb-1 fw-semibold" style="font-size:1.9rem;">Enterprise Activation</h1>
-
-                            <p class="text-muted mb-0">Securely unlock the full Enterprise experience.</p>
+                            <span class="fw-semibold text-primary small text-uppercase" style="letter-spacing:.2em;">SSB Attendance Pro Enterprise</span>
 
                         </div>
+
+                        <h1 class="mb-2 fw-bold" style="font-size:2rem;line-height:1.15;">Enterprise Activation</h1>
+
+                        <p class="text-muted mb-0" style="font-size:1rem;max-width:640px;">Please activate your software to unlock all Enterprise features.</p>
 
                     </div>
 
@@ -58,15 +56,23 @@
 
                         <label class="form-label fw-semibold">License Key</label>
 
-                        <input id="enterpriseLicenseKey" class="form-control form-control-lg border-0 shadow-sm" style="border-radius:14px;padding:14px 16px;" placeholder="Enter your Enterprise License Key" autocomplete="off">
+                        <div class="position-relative activation-input-wrap">
+
+                            <i class="bi bi-key-fill position-absolute text-muted" style="left:16px;top:50%;transform:translateY(-50%);font-size:1rem;"></i>
+
+                            <input id="enterpriseLicenseKey" class="form-control form-control-lg border-0 shadow-sm" style="border-radius:14px;padding:14px 16px 14px 48px;min-height:58px;font-size:1rem;" placeholder="Enter your Enterprise License Key" autocomplete="off">
+
+                        </div>
 
                     </div>
 
-                    <button id="btnActivateEnterprise" class="btn btn-primary btn-lg w-100 fw-semibold" type="button" style="border-radius:14px;padding:14px 20px;box-shadow:0 10px 30px rgba(37,99,235,.25);transition:transform .2s ease, box-shadow .2s ease;">
+                    <button id="btnActivateEnterprise" class="btn btn-primary btn-lg w-100 fw-semibold activation-gate-btn" type="button" style="border-radius:14px;padding:14px 20px;box-shadow:0 10px 30px rgba(37,99,235,.25);transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease;">
+
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style="display:none;"></span>
 
                         <i class="bi bi-unlock-fill me-2"></i>
 
-                        Activate
+                        Activate Enterprise License
 
                     </button>
 
@@ -80,7 +86,7 @@
 
                 <div class="col-lg-5">
 
-                    <div class="card h-100 border-0 shadow-sm" style="border-radius:22px;background:linear-gradient(180deg,#f8fbff 0%,#f6f8ff 100%);">
+                    <div class="card border-0 shadow-sm activation-status-card" style="border-radius:22px;background:linear-gradient(180deg,#f8fbff 0%,#f6f8ff 100%);">
 
                         <div class="card-body p-4">
 
@@ -88,13 +94,14 @@
 
                                 <h5 class="mb-0 fw-semibold"><i class="bi bi-broadcast-pin me-2"></i>Activation Status</h5>
 
-                                <span class="badge bg-warning text-dark px-3 py-2"><i class="bi bi-hourglass-split me-1"></i>Pending</span>
+                                <span class="badge bg-warning text-dark px-3 py-2 activation-status-badge"><i class="bi bi-hourglass-split me-1"></i>Pending</span>
 
                             </div>
 
                             <div id="activationStatusMessage" class="alert alert-light border mb-0" style="border-radius:16px;">
 
-                                No activation has been performed yet.
+                                Your software has not been activated yet.
+                                Please enter a valid Enterprise License Key.
 
                             </div>
 
@@ -102,7 +109,7 @@
 
                     </div>
 
-                    <div class="card h-100 border-0 shadow-sm mt-3" style="border-radius:22px;">
+                    <div class="card border-0 shadow-sm mt-3 activation-info-card" style="border-radius:22px;">
 
                         <div class="card-body p-4">
 
@@ -114,7 +121,7 @@
 
                                     <span class="text-muted"><i class="bi bi-box-seam me-2"></i>Product</span>
 
-                                    <strong class="text-end">SSB Attendance Pro</strong>
+                                    <strong class="text-end">SSB Attendance Pro Enterprise</strong>
 
                                 </div>
 
@@ -122,7 +129,7 @@
 
                                     <span class="text-muted"><i class="bi bi-sliders me-2"></i>Version</span>
 
-                                    <strong class="text-end">Enterprise v2.1.0</strong>
+                                    <strong class="text-end">v2.1.0</strong>
 
                                 </div>
 
@@ -130,7 +137,7 @@
 
                                     <span class="text-muted"><i class="bi bi-database me-2"></i>Database</span>
 
-                                    <strong class="text-end">Connected</strong>
+                                    <strong class="text-end">Google Sheets</strong>
 
                                 </div>
 
@@ -138,7 +145,7 @@
 
                                     <span class="text-muted"><i class="bi bi-file-earmark-spreadsheet me-2"></i>Spreadsheet ID</span>
 
-                                    <strong class="text-end">Pending</strong>
+                                    <strong class="text-end">-</strong>
 
                                 </div>
 
@@ -154,7 +161,7 @@
 
                                     <span class="text-muted"><i class="bi bi-link-45deg me-2"></i>Binding Status</span>
 
-                                    <strong class="text-end">Pending</strong>
+                                    <strong class="text-end">Unbound</strong>
 
                                 </div>
 
