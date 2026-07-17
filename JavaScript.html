@@ -92,16 +92,35 @@ button.dataset.bound="true";
 
 checkState(){
 
-if(this.isActivated){
+google.script.run
+.withSuccessHandler(function(result){
 
-this.hideGate();
+const activated=Boolean(result&&result.activated);
+APP.activation.isActivated=activated;
+
+if(activated){
+
+APP.activation.hideGate();
 APP.showPage("dashboard");
 APP.dashboard.load();
 return;
 
 }
 
-this.showGate();
+APP.activation.showGate();
+APP.activation.updateInfo(result||{});
+APP.activation.setStatus(false,result&&result.message?result.message:"Your software has not been activated yet. Please enter a valid Enterprise License Key.","warning");
+
+})
+.withFailureHandler(function(err){
+
+APP.activation.isActivated=false;
+APP.activation.showGate();
+APP.activation.updateInfo({licenseStatus:"Pending",bindingStatus:"Unbound",spreadsheetId:"-",activatedOn:"-",expiredOn:"-"});
+APP.activation.setStatus(false,err&&err.message?err.message:"Unable to validate activation state.","danger");
+
+})
+.activationGetState();
 
 },
 
@@ -132,17 +151,55 @@ const key=input?input.value.trim():"";
 
 if(!key){
 
-this.setStatus(false,"Please enter a license key to continue.");
+this.setStatus(false,"Please enter a license key to continue.","warning");
 return;
 
 }
 
-const result=APP.enterpriseActivate({licenseKey:key});
+const button=document.getElementById("btnActivateEnterprise");
+const spinner=button?button.querySelector(".spinner-border"):null;
+
+if(button){button.disabled=true;}
+if(spinner){spinner.style.display="inline-block";}
+
+const activationPromise=APP.enterpriseActivate({licenseKey:key});
+
+if(activationPromise&&typeof activationPromise.then==="function"){
+
+activationPromise.then(function(result){
+
+if(button){button.disabled=false;}
+if(spinner){spinner.style.display="none";}
 
 if(result&&result.success){
 
+APP.activation.isActivated=true;
+APP.activation.updateInfo(result);
+APP.activation.setStatus(true,result.message||"Activation completed successfully.","success");
+APP.activation.hideGate();
+APP.showPage("dashboard");
+APP.dashboard.load();
+return;
+
+}
+
+APP.activation.isActivated=false;
+APP.activation.updateInfo(result||{});
+APP.activation.setStatus(false,result&&result.message?result.message:"Activation could not be completed.",result&&result.statusType?result.statusType:"danger");
+
+});
+
+return;
+
+}
+
+if(button){button.disabled=false;}
+if(spinner){spinner.style.display="none";}
+
+if(activationPromise&&activationPromise.success){
+
 this.isActivated=true;
-this.setStatus(true,"Activation UI ready. Dashboard access will be enabled after the next integration phase.");
+this.setStatus(true,activationPromise.message||"Activation completed successfully.","success");
 this.hideGate();
 APP.showPage("dashboard");
 APP.dashboard.load();
@@ -150,25 +207,82 @@ return;
 
 }
 
-this.setStatus(false,result&&result.message?result.message:"Activation could not be completed.");
+this.isActivated=false;
+this.updateInfo(activationPromise||{});
+this.setStatus(false,activationPromise&&activationPromise.message?activationPromise.message:"Activation could not be completed.",activationPromise&&activationPromise.statusType?activationPromise.statusType:"danger");
 
 },
 
-setStatus(success,message){
+updateInfo(result){
+
+const values={
+product:"SSB Attendance Pro Enterprise",
+version:result&&result.version?result.version:"v2.1.0",
+database:result&&result.database?result.database:"Google Sheets",
+spreadsheetId:result&&result.spreadsheetId?result.spreadsheetId:"-",
+licenseStatus:result&&result.licenseStatus?result.licenseStatus:"Pending",
+bindingStatus:result&&result.bindingStatus?result.bindingStatus:"Unbound",
+activatedOn:result&&result.activatedOn?result.activatedOn:"-",
+expiredOn:result&&result.expiredOn?result.expiredOn:"-"
+};
+
+const setValue=function(id,value){
+const el=document.getElementById(id);
+if(el){el.textContent=value;}
+};
+
+setValue("activationInfoProductValue",values.product);
+setValue("activationInfoVersionValue",values.version);
+setValue("activationInfoDatabaseValue",values.database);
+setValue("activationInfoSpreadsheetIdValue",values.spreadsheetId);
+setValue("activationInfoLicenseStatusValue",values.licenseStatus);
+setValue("activationInfoBindingStatusValue",values.bindingStatus);
+setValue("activationInfoActivatedOnValue",values.activatedOn);
+setValue("activationInfoExpiredOnValue",values.expiredOn);
+
+},
+
+setStatus(success,message,badgeType){
 
 const badge=document.querySelector("#activationGate .badge");
 const messageBox=document.getElementById("activationStatusMessage");
+const type=badgeType|| (success?"success":"warning");
 
 if(badge){
 
-badge.className=success?"badge bg-success px-3 py-2":"badge bg-warning text-dark px-3 py-2";
-badge.innerHTML=success?'<i class="bi bi-check-circle-fill me-1"></i>Activated':'<i class="bi bi-hourglass-split me-1"></i>Pending';
+if(type==="success"){
+
+badge.className="badge bg-success px-3 py-2";
+badge.innerHTML='<i class="bi bi-check-circle-fill me-1"></i>Active';
+
+}else if(type==="danger"){
+
+badge.className="badge bg-danger px-3 py-2";
+badge.innerHTML='<i class="bi bi-x-circle-fill me-1"></i>Invalid';
+
+}else{
+
+badge.className="badge bg-warning text-dark px-3 py-2";
+badge.innerHTML='<i class="bi bi-hourglass-split me-1"></i>Pending';
+
+}
 
 }
 
 if(messageBox){
 
-messageBox.className=success?"alert alert-success border mb-0":"alert alert-warning border mb-0";
+if(type==="success"){
+
+messageBox.className="alert alert-success border mb-0";
+}else if(type==="danger"){
+
+messageBox.className="alert alert-danger border mb-0";
+}else{
+
+messageBox.className="alert alert-warning border mb-0";
+
+}
+
 messageBox.style.borderRadius="16px";
 messageBox.innerHTML=message||"";
 
@@ -182,11 +296,29 @@ enterpriseActivate(payload){
 
 if(!payload||!String(payload.licenseKey||"").trim()){
 
-return{success:false,message:"License key is required."};
+return Promise.resolve({success:false,message:"License key is required.",statusType:"warning"});
 
 }
 
-return{success:true,activated:true,message:"Enterprise activation UI ready."};
+return new Promise(function(resolve){
+
+const runner=window.google&&window.google.script&&window.google.script.run;
+
+if(!runner){
+resolve({success:false,message:"Activation server is unavailable.",statusType:"danger"});
+return;
+}
+
+runner
+.withSuccessHandler(function(result){
+resolve(result||{success:false,message:"Activation could not be completed.",statusType:"danger"});
+})
+.withFailureHandler(function(err){
+resolve({success:false,message:err&&err.message?err.message:"Activation could not be completed.",statusType:"danger"});
+})
+.enterpriseActivate(payload);
+
+});
 
 },
 
