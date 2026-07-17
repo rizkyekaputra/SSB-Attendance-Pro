@@ -25,9 +25,9 @@ start(){
 
 console.log("SSB Attendance Pro Enterprise v2");
 
-this.showPage("dashboard");
+this.activation.bindEvents();
 
-this.dashboard.load();
+this.activation.checkState();
 
 },
 
@@ -66,6 +66,127 @@ btn.classList.add("active");
 }
 
 });
+
+},
+
+/*=========================================================
+ENTERPRISE ACTIVATION
+=========================================================*/
+
+activation:{
+
+isActivated:false,
+
+bindEvents(){
+
+const button=document.getElementById("btnActivateEnterprise");
+
+if(button && !button.dataset.bound){
+
+button.addEventListener("click",function(){APP.activation.handleActivate();});
+button.dataset.bound="true";
+
+}
+
+},
+
+checkState(){
+
+if(this.isActivated){
+
+this.hideGate();
+APP.showPage("dashboard");
+APP.dashboard.load();
+return;
+
+}
+
+this.showGate();
+
+},
+
+showGate(){
+
+const gate=document.getElementById("activationGate");
+const shell=document.getElementById("appShell");
+
+if(gate){gate.style.display="flex";}
+if(shell){shell.style.display="none";}
+
+},
+
+hideGate(){
+
+const gate=document.getElementById("activationGate");
+const shell=document.getElementById("appShell");
+
+if(gate){gate.style.display="none";}
+if(shell){shell.style.display="block";}
+
+},
+
+handleActivate(){
+
+const input=document.getElementById("enterpriseLicenseKey");
+const key=input?input.value.trim():"";
+
+if(!key){
+
+this.setStatus(false,"Please enter a license key to continue.");
+return;
+
+}
+
+const result=APP.enterpriseActivate({licenseKey:key});
+
+if(result&&result.success){
+
+this.isActivated=true;
+this.setStatus(true,"Activation UI ready. Dashboard access will be enabled after the next integration phase.");
+this.hideGate();
+APP.showPage("dashboard");
+APP.dashboard.load();
+return;
+
+}
+
+this.setStatus(false,result&&result.message?result.message:"Activation could not be completed.");
+
+},
+
+setStatus(success,message){
+
+const badge=document.querySelector("#activationGate .badge");
+const messageBox=document.getElementById("activationStatusMessage");
+
+if(badge){
+
+badge.className=success?"badge bg-success px-3 py-2":"badge bg-warning text-dark px-3 py-2";
+badge.innerHTML=success?'<i class="bi bi-check-circle-fill me-1"></i>Activated':'<i class="bi bi-hourglass-split me-1"></i>Pending';
+
+}
+
+if(messageBox){
+
+messageBox.className=success?"alert alert-success border mb-0":"alert alert-warning border mb-0";
+messageBox.style.borderRadius="16px";
+messageBox.innerHTML=message||"";
+
+}
+
+}
+
+},
+
+enterpriseActivate(payload){
+
+if(!payload||!String(payload.licenseKey||"").trim()){
+
+return{success:false,message:"License key is required."};
+
+}
+
+return{success:true,activated:true,message:"Enterprise activation UI ready."};
 
 },
 
@@ -377,7 +498,7 @@ console.log("License Module");
 
 openGenerator(){
 
-const trigger=document.getElementById("btnGenerateLicense");
+const trigger=document.getElementById("btnGenerateLicense") || document.getElementById("btnDashboardGenerateLicense");
 
 if(trigger){trigger.disabled=false;trigger.removeAttribute("aria-disabled");}
 
