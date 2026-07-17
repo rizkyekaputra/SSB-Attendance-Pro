@@ -435,11 +435,335 @@
 
 </section>
 
-            <!-- License -->
+  
 
-            <section id="licensePage" style="display:none;">
+           <!-- License -->
 
-            </section>
+<section id="licensePage" style="display:none;">
+
+    <!-- =========================
+         LICENSE MANAGEMENT
+    ========================== -->
+
+    <!-- Header -->
+    <div class="app-card mb-4">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h2 class="mb-1">
+                    <i class="bi bi-key-fill"></i>
+                    License Management
+                </h2>
+
+                <small class="text-muted">
+                    Kelola seluruh License SSB Attendance Pro Enterprise.
+                </small>
+
+            </div>
+
+            <button
+                id="btnGenerateLicense"
+                class="btn btn-primary">
+
+                <i class="bi bi-plus-circle"></i>
+                Generate License
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Statistik -->
+    <div id="licenseStats" class="row g-4 mb-4">
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="app-card text-center">
+
+            <i class="bi bi-key-fill fs-2 text-primary"></i>
+
+            <h3
+                class="mt-3 mb-1"
+                id="licenseTotal">
+
+                0
+
+            </h3>
+
+            <small class="text-muted">
+
+                Total License
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="app-card text-center">
+
+            <i class="bi bi-check-circle-fill fs-2 text-success"></i>
+
+            <h3
+                class="mt-3 mb-1"
+                id="licenseActive">
+
+                0
+
+            </h3>
+
+            <small class="text-muted">
+
+                Active License
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="app-card text-center">
+
+            <i class="bi bi-x-circle-fill fs-2 text-danger"></i>
+
+            <h3
+                class="mt-3 mb-1"
+                id="licenseExpired">
+
+                0
+
+            </h3>
+
+            <small class="text-muted">
+
+                Expired License
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="app-card text-center">
+
+            <i class="bi bi-alarm-fill fs-2 text-warning"></i>
+
+            <h3
+                class="mt-3 mb-1"
+                id="licenseSoon">
+
+                0
+
+            </h3>
+
+            <small class="text-muted">
+
+                Expiring Soon
+
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- Toolbar -->
+    <div id="licenseToolbar" class="app-card mb-4">
+
+    <div class="row g-3 align-items-center">
+
+        <!-- Search -->
+        <div class="col-lg-4">
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
+                    <i class="bi bi-search"></i>
+
+                </span>
+
+                <input
+                    type="text"
+                    id="licenseSearch"
+                    class="form-control"
+                    placeholder="Cari License, Nama SSB atau Email...">
+
+            </div>
+
+        </div>
+
+        <!-- Status -->
+        <div class="col-lg-2">
+
+            <select
+                id="licenseFilterStatus"
+                class="form-select">
+
+                <option value="">Semua Status</option>
+                <option value="Active">Active</option>
+                <option value="Expired">Expired</option>
+
+            </select>
+
+        </div>
+
+        <!-- Version -->
+        <div class="col-lg-2">
+
+            <select
+                id="licenseFilterVersion"
+                class="form-select">
+
+                <option value="">Semua Version</option>
+                <option>Enterprise</option>
+                <option>Professional</option>
+                <option>Standard</option>
+
+            </select>
+
+        </div>
+
+        <!-- Refresh -->
+        <div class="col-lg-2 d-grid">
+
+            <button
+                class="btn btn-outline-primary"
+                id="btnRefreshLicense">
+
+                <i class="bi bi-arrow-clockwise"></i>
+
+                Refresh
+
+            </button>
+
+        </div>
+
+        <!-- Export -->
+        <div class="col-lg-2 d-grid">
+
+            <button
+                class="btn btn-success"
+                id="btnExportLicense"
+                disabled>
+
+                <i class="bi bi-download"></i>
+
+                Export
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- Table -->
+    <div id="licenseTableContainer" class="app-card">
+
+    <div class="table-responsive">
+
+        <table
+            class="table table-hover align-middle mb-0">
+
+            <thead class="table-light">
+
+                <tr>
+
+                    <th width="220">License Key</th>
+
+                    <th>Nama SSB</th>
+
+                    <th>Status</th>
+
+                    <th>Expired</th>
+
+                    <th>Version</th>
+
+                    <th width="160" class="text-center">
+
+                        Action
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="licenseTableBody">
+
+                <tr>
+
+                    <td colspan="6"
+                        class="text-center py-5 text-muted">
+
+                        <i class="bi bi-folder2-open fs-1 d-block mb-3"></i>
+
+                        Belum ada data License
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+    <!-- Pagination -->
+    <div
+    id="licensePagination"
+    class="d-flex justify-content-between align-items-center mt-3">
+
+    <small
+        id="licensePageInfo"
+        class="text-muted">
+
+        Showing 0 of 0
+
+    </small>
+
+    <div>
+
+        <button
+            class="btn btn-light btn-sm"
+            disabled>
+
+            <i class="bi bi-chevron-left"></i>
+
+            Previous
+
+        </button>
+
+        <button
+            class="btn btn-light btn-sm"
+            disabled>
+
+            Next
+
+            <i class="bi bi-chevron-right"></i>
+
+        </button>
+
+    </div>
+
+</div>
+
+</section>
 
             <!-- Customer -->
 
